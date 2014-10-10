@@ -28,20 +28,31 @@ class MatrixOutput(object):
         self.stdout.write(text)
         self.stdout.flush()
 
+    def animate(self, step=1):
+        for column in xrange(self.width):
+            column_string = ''.join([self.screen[row][column] for row in xrange(self.height)])
+            column_string = ' '*step + self.buffers[column] + column_string
+            column_string = column_string[:-step]
+            self.buffers[column], column_string = column_string[:-self.height], column_string[-self.height:]
+            for row, letter in enumerate(column_string):
+                self.screen[row][column] = letter
+
+        self.print_screen()
+
     def write(self, text):
         text = text.rstrip()
         if len(text) == 0: return
 
         column = randint(0, self.width)
-        for row, letter in enumerate(text):
-            self.screen[row + 1][column] = letter
+        self.buffers[column] = text
         
         self.print_screen()
 
 if __name__ == '__main__':
     sys.stdout = MatrixOutput()
     print 'Wake up, Neo.'
-    sleep(2)
     print 'The Matrix has you...'
-    sleep(2)
     print 'Follow the white rabbit'
+    for i in xrange(50):
+        sys.stdout.animate()
+        sleep(0.1)
