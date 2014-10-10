@@ -50,6 +50,10 @@ class MatrixOutput(object):
 
         self.print_screen()
 
+    def add_line(self, line):
+        column = randint(0, self.width - 1)
+        self.buffers[column] = line + self.buffers[column]
+
     def write(self, text):
         text = text.rstrip()
         if len(text) == 0: return
@@ -57,17 +61,20 @@ class MatrixOutput(object):
         if text == EXIT_TEXT:
             self.in_matrix = False
 
-        column = randint(0, self.width)
-        self.buffers[column] = text
-        
+        for line in text.split('\n'):
+            self.add_line(line + ' ' * randint(0, self.height))       
         self.print_screen()
 
 if __name__ == '__main__':
     sys.stdout = MatrixOutput()
-    print 'Wake up, Neo.'
-    sleep(2)
-    print 'The Matrix has you...'
-    sleep(2)
-    print 'Follow the white rabbit'
-    sleep(5)
+    print '''Wake up, Neo.
+             The Matrix has you...
+             Follow the white rabbit'''
+    print '\n'.join([''.join([str(randint(0, 1)) for j in xrange(randint(0,5))]) 
+                    for i in xrange(100)])
+
+
+    sleep(10)
     print 'red pill'
+    sleep(0.5)
+    print 'welcome to real world'
