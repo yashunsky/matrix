@@ -16,6 +16,7 @@ class MatrixOutput(object):
     def __init__(self):
         self.stdout = sys.stdout
         self.width, self.height = get_terminal_size()
+        self.buffers = ['' for i in xrange(self.width)]
 
         self.clrscr()
 
@@ -25,6 +26,7 @@ class MatrixOutput(object):
     def print_screen(self):
         text = ''.join([''.join(line) for line in self.screen])      
         self.stdout.write(text)
+        self.stdout.flush()
 
     def write(self, text):
         text = text.rstrip()
@@ -39,4 +41,7 @@ class MatrixOutput(object):
 if __name__ == '__main__':
     sys.stdout = MatrixOutput()
     print 'Wake up, Neo.'
+    sleep(2)
     print 'The Matrix has you...'
+    sleep(2)
+    print 'Follow the white rabbit'
