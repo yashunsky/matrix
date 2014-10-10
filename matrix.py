@@ -21,7 +21,8 @@ class MatrixOutput(object):
         self.stdout = sys.stdout
         self.width, self.height = get_terminal_size()
         self.buffers = ['' for i in xrange(self.width)]
-        self.speed = [randint(-SPEED_RANGE, MAX_SPEED) for i in xrange(self.width)]
+        self.speed = [randint(-SPEED_RANGE, MAX_SPEED) 
+                      for i in xrange(self.width)]
         self.in_matrix = True
         self.counter = 0
         self.animation_thread = Thread(target=self.animation)
@@ -30,7 +31,8 @@ class MatrixOutput(object):
         self.animation_thread.start()
 
     def clrscr(self):
-        self.screen = [[' ' for i in xrange(self.width)] for j in xrange(self.height)]
+        self.screen = [[' ' for i in xrange(self.width)]
+                       for j in xrange(self.height)]
 
     def print_screen(self):
         text = ''.join([''.join(line) for line in self.screen])      
@@ -53,10 +55,13 @@ class MatrixOutput(object):
                 else:
                     step = 0
             self.counter = (self.counter + 1) % SPEED_RANGE
-            column_string = ''.join([self.screen[row][column] for row in xrange(self.height)])
+            column_string = ''.join([self.screen[row][column] 
+                                     for row in xrange(self.height)])
             column_string = ' '*step + self.buffers[column] + column_string
             column_string = column_string[:-step]
-            self.buffers[column], column_string = column_string[:-self.height], column_string[-self.height:]
+            (self.buffers[column], 
+             column_string) = (column_string[:-self.height], 
+                               column_string[-self.height:])
             for row, letter in enumerate(column_string):
                 self.screen[row][column] = letter
 
@@ -77,15 +82,16 @@ class MatrixOutput(object):
             self.add_line(line + ' ' * randint(0, self.height))       
         self.print_screen()
 
-# this line is here not by mistake, but for autoexecution in case of include :)
+# this line is here not by mistake, but for autoexecution in case of include
 sys.stdout = MatrixOutput()
 
 if __name__ == '__main__':
     print '''Wake up, Neo.
              The Matrix has you...
              Follow the white rabbit'''
-    print '\n'.join([''.join([str(randint(0, 1)) for j in xrange(randint(0,5))]) 
-                    for i in xrange(100)])
+    print '\n'.join([''.join([str(randint(0, 1)) 
+                              for j in xrange(randint(0,5))]) 
+                     for i in xrange(100)])
 
 
     sleep(10)
