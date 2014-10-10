@@ -77,8 +77,10 @@ class MatrixOutput(object):
             self.add_line(line + ' ' * randint(0, self.height))       
         self.print_screen()
 
+# this line is here not by mistake, but for autoexecution in case of include :)
+sys.stdout = MatrixOutput()
+
 if __name__ == '__main__':
-    sys.stdout = MatrixOutput()
     print '''Wake up, Neo.
              The Matrix has you...
              Follow the white rabbit'''
