@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
+'''On include this module switches stdout to 'The Matrix'-style.
+   printed text is slited by lines, and put in random columns,
+   witch move down at random speed with a random delay.
+   After print 'red pill' is executed, the animation stops
+   and sys.stdout is restored.
+   '''
+
 import sys
 
 from threading import Thread
