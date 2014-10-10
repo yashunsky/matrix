@@ -12,6 +12,8 @@ from terminalsize import get_terminal_size
 from random import randint
 
 EXIT_TEXT = 'red pill'
+SPEED_RANGE = 8
+MAX_SPEED = 2
 
 class MatrixOutput(object):
     """docstring for MatrixOutput"""
@@ -19,7 +21,9 @@ class MatrixOutput(object):
         self.stdout = sys.stdout
         self.width, self.height = get_terminal_size()
         self.buffers = ['' for i in xrange(self.width)]
+        self.speed = [randint(-SPEED_RANGE, MAX_SPEED) for i in xrange(self.width)]
         self.in_matrix = True
+        self.counter = 0
         self.animation_thread = Thread(target=self.animation)
         self.clrscr()
 
@@ -36,11 +40,19 @@ class MatrixOutput(object):
     def animation(self):
         while self.in_matrix:
             self.animation_step()
-            sleep(0.2)
+            sleep(0.1)
         sys.stdout = self.stdout
 
-    def animation_step(self, step=1):
+    def animation_step(self):
         for column in xrange(self.width):
+            step = self.speed[column]
+            if step <= 0:
+                step = -step + 1
+                if self.counter % step == 0:
+                    step = 1
+                else:
+                    step = 0
+            self.counter = (self.counter + 1) % SPEED_RANGE
             column_string = ''.join([self.screen[row][column] for row in xrange(self.height)])
             column_string = ' '*step + self.buffers[column] + column_string
             column_string = column_string[:-step]
