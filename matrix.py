@@ -87,7 +87,6 @@ class MatrixOutput(object):
 
         for line in text.split('\n'):
             self.add_line(line + ' ' * randint(0, self.height))       
-        self.print_screen()
 
 # this line is here not by mistake, but for autoexecution in case of include
 sys.stdout = MatrixOutput()
