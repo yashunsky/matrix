@@ -21,14 +21,14 @@ from random import randint
 EXIT_TEXT = 'red pill'
 SPEED_RANGE = 5
 SPEED_SELECTOR = 120 # = SPEED_RANGE!
-MAX_SPEED = 2
+MAX_SPEED = 0
 
 class MatrixOutput(object):
     """docstring for MatrixOutput"""
     def __init__(self):
         self.stdout = sys.stdout
         self.width, self.height = get_terminal_size()
-        self.buffers = ['' for i in xrange(self.width)]
+        self.buffers = ['1234567890ABCDEFGHIJKLMNOPQRS' for i in xrange(self.width)]
         self.speed = [randint(-SPEED_RANGE, MAX_SPEED) 
                       for i in xrange(self.width)]
         self.in_matrix = True
@@ -62,7 +62,7 @@ class MatrixOutput(object):
                     step = 1
                 else:
                     step = 0
-            self.counter = (self.counter + 1) % SPEED_SELECTOR
+
             column_string = ''.join([self.screen[row][column] 
                                      for row in xrange(self.height)])
             column_string = ' '*step + self.buffers[column] + column_string
@@ -73,6 +73,7 @@ class MatrixOutput(object):
             for row, letter in enumerate(column_string):
                 self.screen[row][column] = letter
 
+        self.counter = (self.counter + 1) % SPEED_SELECTOR
         self.print_screen()
 
     def add_line(self, line):
@@ -93,12 +94,12 @@ class MatrixOutput(object):
 sys.stdout = MatrixOutput()
 
 if __name__ == '__main__':
-    print '''Wake up, Neo.
-             The Matrix has you...
-             Follow the white rabbit'''
-    print '\n'.join([''.join([str(randint(0, 1)) 
-                              for j in xrange(randint(0,5))]) 
-                     for i in xrange(100)])
+    # print '''Wake up, Neo.
+    #          The Matrix has you...
+    #          Follow the white rabbit'''
+    # print '\n'.join([''.join([str(randint(0, 1)) 
+    #                           for j in xrange(randint(0,5))]) 
+    #                  for i in xrange(100)])
 
 
     sleep(10)
