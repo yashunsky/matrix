@@ -19,7 +19,8 @@ from terminalsize import get_terminal_size
 from random import randint
 
 EXIT_TEXT = 'red pill'
-SPEED_RANGE = 8
+SPEED_RANGE = 5
+SPEED_SELECTOR = 120 # = SPEED_RANGE!
 MAX_SPEED = 2
 
 class MatrixOutput(object):
@@ -61,7 +62,7 @@ class MatrixOutput(object):
                     step = 1
                 else:
                     step = 0
-            self.counter = (self.counter + 1) % SPEED_RANGE
+            self.counter = (self.counter + 1) % SPEED_SELECTOR
             column_string = ''.join([self.screen[row][column] 
                                      for row in xrange(self.height)])
             column_string = ' '*step + self.buffers[column] + column_string
